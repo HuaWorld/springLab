@@ -3,6 +3,7 @@ package com.evan.xh.controller;
 import com.evan.xh.pojo.Book;
 import com.evan.xh.service.BookService;
 import com.evan.xh.utils.StringUtils;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@Api(tags = "图书管理")
 @RestController
 public class LibraryController {
     @Autowired //自动注入

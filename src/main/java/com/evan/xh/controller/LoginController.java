@@ -4,11 +4,12 @@ import com.evan.xh.pojo.User;
 import com.evan.xh.result.Result;
 import com.evan.xh.result.ResultFactory;
 import com.evan.xh.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.util.HtmlUtils;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
+@Api(tags = "登录控制")
 @Controller
 public class LoginController {
 
@@ -25,12 +27,15 @@ public class LoginController {
     // password : admin
     // code = eq ? 200 : 404
 
+
+
     @Autowired
     UserService userService;
 
     // 设置hash，算法迭代次数
     int times = 2;
 
+    @ApiOperation("用户登录")
     @CrossOrigin
     @PostMapping(value = "api/login")
     @ResponseBody
@@ -43,6 +48,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, requestUser.getPassword());
         token.setRememberMe(true);
         try{
+
             subject.login(token);
             return ResultFactory.buildSuccessResult(username);
         }catch (Exception e){

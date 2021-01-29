@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class MyWebConfigurer implements WebMvcConfigurer {
     @Bean
-    public LoginInterceptor getLoginInterceptor(){
+    public LoginInterceptor getLoginInterceptor() {
         return new LoginInterceptor();
     }
 
@@ -21,11 +21,12 @@ public class MyWebConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/index.html")
                 .excludePathPatterns("/api/login")
-                .excludePathPatterns("/api/logout");
+                .excludePathPatterns("/api/logout")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry){
+    public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
                 .allowedOrigins("http://localhost:8080")
@@ -34,8 +35,16 @@ public class MyWebConfigurer implements WebMvcConfigurer {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry){
-        resourceHandlerRegistry.addResourceHandler("/api/file/**").addResourceLocations("file:" + "C:/dev/backendImg/");
+    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
+        resourceHandlerRegistry
+                .addResourceHandler("/api/file/**")
+                .addResourceLocations("file:" + "C:/dev/backendImg/");
+        resourceHandlerRegistry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        resourceHandlerRegistry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        resourceHandlerRegistry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
 
 }
